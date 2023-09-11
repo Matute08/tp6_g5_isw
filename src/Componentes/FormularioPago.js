@@ -116,7 +116,7 @@ function FormularioPago({
   };
 
   // Verifica si al menos un método de pago está seleccionado para habilitar o deshabilitar el botón "Siguiente"
-  const isNextButtonEnabled = paymentMethod === "efectivo" || (paymentMethod === "card" && !cardNumberError && !cardHolderError && !expiryError && !cvcError);
+  const isNextButtonEnabled = paymentMethod === "efectivo" || (paymentMethod === "card");
 
   return (
     <div className="d-flex justify-content-center m-5">
