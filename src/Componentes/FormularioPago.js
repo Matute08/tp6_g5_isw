@@ -70,9 +70,9 @@ function FormularioPago({
     setCashAmountError(!cashAmount.trim());
   };
 
-const handleNextStep = () => {
+  const handleNextStep = () => {
     let isValid = true;
-  
+
     if (paymentMethod === "efectivo") {
       const cashAmount = document.getElementById("cashAmount").value;
       setCashAmountError(!cashAmount.trim());
@@ -84,12 +84,12 @@ const handleNextStep = () => {
       const isCardHolderValid = !!cardDetails.name.trim();
       const isExpiryValid = /^\d{1,2}\s*\/\s*\d{4}$/.test(cardDetails.expiry);
       const isCvcValid = /^\d{1,3}$/.test(cardDetails.cvc);
-  
+
       setCardNumberError(!isCardNumberValid);
       setCardHolderError(!isCardHolderValid);
       setExpiryError(!isExpiryValid);
       setCvcError(!isCvcValid);
-  
+
       if (
         !isCardNumberValid ||
         !isCardHolderValid ||
@@ -99,7 +99,7 @@ const handleNextStep = () => {
         isValid = false;
       }
     }
-  
+
     if (isValid) {
       // Realizar la validación de Visa o MasterCard solo si todas las demás validaciones son exitosas
       if (paymentMethod === "card" && !isVisaOrMasterCard(cardDetails.number)) {
@@ -110,12 +110,14 @@ const handleNextStep = () => {
         });
         return;
       }
-  
+
       onNextStep();
     }
   };
-  
-  
+
+  // Verifica si al menos un método de pago está seleccionado para habilitar o deshabilitar el botón "Siguiente"
+  const isNextButtonEnabled = paymentMethod === "efectivo" || (paymentMethod === "card" && !cardNumberError && !cardHolderError && !expiryError && !cvcError);
+
   return (
     <div className="d-flex justify-content-center m-5">
       <Card className="card-responsive">
@@ -278,7 +280,7 @@ const handleNextStep = () => {
 
         <Card.Footer className="d-flex justify-content-between">
           <button onClick={onPrevStep}>Anterior</button>
-          <button onClick={handleNextStep}>Siguiente</button>
+          {isNextButtonEnabled && <button onClick={handleNextStep}>Siguiente</button>}
         </Card.Footer>
       </Card>
     </div>
