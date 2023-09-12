@@ -1,6 +1,8 @@
 import React from "react";
 import { Card, Form, Image } from "react-bootstrap";
 import imgRandom from "../imagen/imagen.jpg";
+import MapaTrayecto from "./MapaTrayecto"; // Importa el componente MapaTrayecto
+
 
 function ResumenPedido({
     product,
@@ -20,7 +22,7 @@ function ResumenPedido({
     onNextStep
 }) {
     return (
-        <div className="d-flex justify-content-center m-5">
+        <div className="d-flex justify-content-center m-3">
             <Card className="card-responsive">
                 <Card.Header className="text-center">
                     <h2>Resumen del Pedido</h2>
@@ -70,6 +72,10 @@ function ResumenPedido({
                             Total a Pagar: ${total}
                         </h4>
                     </div>
+                    <MapaTrayecto
+      inicio={`${commerceAddress}, ${commerceHeight}, ${commerceCity}`}
+      destino={`${deliveryAddress}, ${deliveryHeight}, ${deliveryCity}`}
+    />
                 </Card.Body>
 
                 <Card.Footer className="d-flex justify-content-between">

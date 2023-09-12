@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Card, Form, Alert } from "react-bootstrap";
-
-
+import { Card, Form, Alert,FloatingLabel } from "react-bootstrap";
 
 function BarraBusqueda({
     searchTerm,
@@ -36,7 +34,7 @@ function BarraBusqueda({
     };
 
     return (
-        <div className="d-flex justify-content-center m-5">
+        <div className="d-flex justify-content-center m-3">
             <Card className=" card-responsive">
                 <Card.Header className="text-center">
                     <h2>Búsqueda de Producto</h2>
@@ -45,26 +43,32 @@ function BarraBusqueda({
                 <Card.Body>
                     {/* QUE DEBE BUSCAR EL CADETE */}
                     <Form.Group>
-                        <Form.Label>¿Qué debe buscar el Cadete?</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Qué deseas buscar"
-                            value={searchTerm}
-                            onChange={onSearchChange}
-                            isInvalid={searchError} // Aplicar estilo de error si searchError es true
-                        />
-                        {/* Mostrar un mensaje de error si searchError es true */}
-                        {searchError && (
-                            <Form.Control.Feedback type="invalid">
-                                Debes ingresar un producto.
-                            </Form.Control.Feedback>
-                        )}
+                       
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="¿Qué debe buscar el Cadete? *"
+                            className="mb-3"
+                        >
+                            <Form.Control
+                                type="text"
+                                placeholder="Qué deseas buscar"
+                                value={searchTerm}
+                                onChange={onSearchChange}
+                                isInvalid={searchError} // Aplicar estilo de error si searchError es true
+                            />
+                            {/* Mostrar un mensaje de error si searchError es true */}
+                            {searchError && (
+                                <Form.Control.Feedback type="invalid">
+                                    Debes ingresar un producto.
+                                </Form.Control.Feedback>
+                            )}
+                        </FloatingLabel>
                     </Form.Group>
 
                     {/* IMAGEN OPCIONAL */}
                     <Form.Group controlId="formFile" className="mb-3">
                         <Form.Label>
-                            Ingrese una imagen representativa:
+                            Ingrese una imagen representativa (Opcional):
                         </Form.Label>
                         <Form.Control
                             type="file"

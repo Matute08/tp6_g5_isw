@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
+import Mapa from "./Mapa";
 
 function FormularioDireccionComercio({
     commerceAddress,
@@ -43,7 +44,7 @@ function FormularioDireccionComercio({
     };
 
     return (
-        <div className="d-flex justify-content-center m-5">
+        <div className="d-flex justify-content-center m-3">
             <Card className=" card-responsive">
                 <Card.Header className="text-center">
                     <h2>Dirección del Comercio</h2>
@@ -56,7 +57,7 @@ function FormularioDireccionComercio({
                                 {/* DIRECCION DEL COMERCIO */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Dirección del Comercio"
+                                    label="Dirección del Comercio *"
                                     className="mb-3"
                                 >
                                     <Form.Control
@@ -77,11 +78,11 @@ function FormularioDireccionComercio({
                                 {/* ALTURA DEL COMERCIO */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Altura del Comercio"
+                                    label="Altura del Comercio *"
                                     className="mb-3"
                                 >
                                     <Form.Control
-                                        placeholder="Altura del Comercio"
+                                        placeholder="Altura del Comercio "
                                         type="number"
                                         value={commerceHeight}
                                         onChange={onCommerceHeightChange}
@@ -99,7 +100,7 @@ function FormularioDireccionComercio({
                         {/* CIUDAD DEL COMERCIO */}
                         <FloatingLabel
                             controlId="floatingInput"
-                            label="Ciudad del Comercio"
+                            label="Ciudad del Comercio *"
                             className="mb-3"
                         >
                             <Form.Select
@@ -147,6 +148,13 @@ function FormularioDireccionComercio({
                             />
                         </FloatingLabel>
                     </Form.Group>
+                {/* Agrega el componente Mapa para la dirección del comercio */}
+                <Mapa
+                    tipoDireccion="Comercio"
+                    direccion={commerceAddress}
+                    altura={commerceHeight}
+                    ciudad={commerceCity}
+                />
                 </Card.Body>
 
                 <Card.Footer className="d-flex justify-content-between">

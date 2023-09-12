@@ -174,7 +174,7 @@ function App() {
                     <ProgressBar now={progreso} label={`${progreso}%`} />
                 </div>
                 <div className="titulo mt-3 d-flex justify-content-center">
-                    <h1>Realizar Pedido de "Lo que sea"</h1>
+                    <h1>Realizar Pedido <br /> "Lo que sea"</h1>
                 </div>
                 <div className="">{renderPasoActual()}</div>
              

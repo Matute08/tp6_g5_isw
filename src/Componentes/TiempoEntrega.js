@@ -47,7 +47,7 @@ function TiempoEntrega({
     }, [deliveryTime]);
 
     return (
-        <div className="d-flex justify-content-center m-5">
+        <div className="d-flex justify-content-center m-3">
             <Card className="card-responsive">
                 <Card.Header className="text-center">
                     <h2>Tiempo de Entrega</h2>

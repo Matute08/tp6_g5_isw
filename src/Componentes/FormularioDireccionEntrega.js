@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Card, FloatingLabel, Form, Col, Row } from "react-bootstrap";
+import Mapa from "./Mapa";
 
 function FormularioDireccionEntrega({
     deliveryAddress,
@@ -44,7 +45,7 @@ function FormularioDireccionEntrega({
     };
 
     return (
-        <div className="d-flex justify-content-center m-5">
+        <div className="d-flex justify-content-center m-3">
             <Card className="card-responsive">
                 <Card.Header className="text-center">
                     <h2>Dirección de Entrega</h2>
@@ -57,7 +58,7 @@ function FormularioDireccionEntrega({
                                 {/* DIRECCION DE ENTREGA */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Dirección de Entrega"
+                                    label="Dirección de Entrega *"
                                     className="mb-3"
                                 >
                                     <Form.Control
@@ -78,7 +79,7 @@ function FormularioDireccionEntrega({
                                 {/* ALTURA DE ENTREGA */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Altura del Entrega"
+                                    label="Altura del Entrega *"
                                     className="mb-3"
                                 >
                                     <Form.Control
@@ -99,7 +100,7 @@ function FormularioDireccionEntrega({
                         {/* CIUDAD DE ENTREGA */}
                         <FloatingLabel
                             controlId="floatingInput"
-                            label="Ciudad de Entrega"
+                            label="Ciudad de Entrega *"
                             className="mb-3"
                         >
                             <Form.Select
@@ -147,6 +148,13 @@ function FormularioDireccionEntrega({
                             />
                         </FloatingLabel>
                     </Form.Group>
+                    {/* Agrega el componente Mapa para la dirección de entrega */}
+                    <Mapa
+                        tipoDireccion="Entrega"
+                        direccion={deliveryAddress}
+                        altura={deliveryHeight}
+                        ciudad={deliveryCity}
+                    />
                 </Card.Body>
 
                 <Card.Footer className="d-flex justify-content-between">

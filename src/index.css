@@ -1,6 +1,16 @@
-*{
+a* {
     font-family: 'Roboto', sans-serif;
+
 }
+
+h1 {
+    font-size: 2em !important;
+}
+
+h2 {
+    font-size: 1.3em !important;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -8,18 +18,35 @@ body {
     background: linear-gradient(90deg, rgba(0, 105, 137, 1) 0%, rgba(0, 112, 144, 1) 68%, rgba(1, 167, 194, 1) 100%);
 }
 
-.logo{
+.credit-card-container {
+    display: flex;
+    align-items: center;
+    /* Esto alinea verticalmente la tarjeta en el centro */
+}
+
+
+
+
+.logo {
 
     background-color: #EAEBED;
 }
-.logo img{
+
+.logo img {
     width: 80px;
     height: 80px;
     object-fit: cover;
 }
-.titulo{
+
+.titulo {
     color: #ffff;
 }
+
+.form-label {
+    font-size: 0.9em !important;
+}
+
+
 .card-responsive {
     width: 50%;
 }
