@@ -3,7 +3,6 @@ import { Card, Form, Image } from "react-bootstrap";
 import imgRandom from "../imagen/imagen.jpg";
 import MapaTrayecto from "./MapaTrayecto"; // Importa el componente MapaTrayecto
 
-
 function ResumenPedido({
     product,
     commerceAddress,
@@ -19,7 +18,7 @@ function ResumenPedido({
     selectedImage, // Agregado para la imagen seleccionada
     onPrevStep,
     onSubmitOrder,
-    onNextStep
+    onNextStep,
 }) {
     return (
         <div className="d-flex justify-content-center m-3">
@@ -73,9 +72,9 @@ function ResumenPedido({
                         </h4>
                     </div>
                     <MapaTrayecto
-      inicio={`${commerceAddress}, ${commerceHeight}, ${commerceCity}`}
-      destino={`${deliveryAddress}, ${deliveryHeight}, ${deliveryCity}`}
-    />
+                        inicio={`${commerceAddress}, ${commerceHeight}, ${commerceCity}`}
+                        destino={`${deliveryAddress}, ${deliveryHeight}, ${deliveryCity}`}
+                    />
                 </Card.Body>
 
                 <Card.Footer className="d-flex justify-content-between">

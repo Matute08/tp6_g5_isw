@@ -11,6 +11,8 @@ function FormularioPago({
     onPaymentMethodChange,
     onCardNumberChange,
     onCardHolderChange,
+    montoEfectivo,
+    onMontoEfectivoChange,
     onPrevStep,
     onNextStep,
 }) {
@@ -77,7 +79,8 @@ function FormularioPago({
         if (paymentMethod === "efectivo") {
             const cashAmount = document.getElementById("cashAmount").value;
             setCashAmountError(!cashAmount.trim());
-            if (!cashAmount.trim()) {
+            if (!cashAmount.trim() || cashAmount < 0) {
+                setCashAmountError(true);
                 isValid = false;
             }
         } else if (paymentMethod === "card") {
@@ -88,36 +91,44 @@ function FormularioPago({
             );
             const isCvcValid = /^\d{1,3}$/.test(cardDetails.cvc);
 
-            setCardNumberError(!isCardNumberValid);
-            setCardHolderError(!isCardHolderValid);
-            setExpiryError(!isExpiryValid);
-            setCvcError(!isCvcValid);
+            if (cardDetails.number < 0 || cardDetails.number.length < 16) {
+                setCardNumberError(true);
+            } else {
+                if (cardDetails.cvc < 0 || cardDetails.cvc.length <3) {
+                    setCvcError(true);
+                } else {
+                    setCardNumberError(!isCardNumberValid);
+                    setCardHolderError(!isCardHolderValid);
+                    setExpiryError(!isExpiryValid);
+                    setCvcError(!isCvcValid);
 
-            if (
-                !isCardNumberValid ||
-                !isCardHolderValid ||
-                !isExpiryValid ||
-                !isCvcValid
-            ) {
-                isValid = false;
+                    if (
+                        !isCardNumberValid ||
+                        !isCardHolderValid ||
+                        !isExpiryValid ||
+                        !isCvcValid
+                    ) {
+                        isValid = false;
+                    }
+
+                    if (isValid) {
+                        // Realizar la validación de Visa o MasterCard solo si todas las demás validaciones son exitosas
+                        if (
+                            paymentMethod === "card" &&
+                            !isVisaOrMasterCard(cardDetails.number)
+                        ) {
+                            Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Solo se permiten tarjetas Visa o MasterCard.",
+                            });
+                            return;
+                        }
+
+                        onNextStep();
+                    }
+                }
             }
-        }
-
-        if (isValid) {
-            // Realizar la validación de Visa o MasterCard solo si todas las demás validaciones son exitosas
-            if (
-                paymentMethod === "card" &&
-                !isVisaOrMasterCard(cardDetails.number)
-            ) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Solo se permiten tarjetas Visa o MasterCard.",
-                });
-                return;
-            }
-
-            onNextStep();
         }
     };
 
@@ -141,14 +152,10 @@ function FormularioPago({
                                 value={paymentMethod}
                                 onChange={(e) => {
                                     onPaymentMethodChange(e.target.value);
-                                    setIsOptionSelected(
-                                        e.target.value !== "seleccione"
-                                    );
+                                    setIsOptionSelected(e.target.value !== "");
                                 }}
                             >
-                                <option value="seleccione">
-                                    Seleccione...
-                                </option>
+                                <option value="">Seleccione...</option>
                                 <option value="efectivo">Efectivo</option>
                                 <option value="card">
                                     Tarjeta de Débito/Crédito
@@ -174,6 +181,7 @@ function FormularioPago({
                                             onChange={handleCardInputChange}
                                             onFocus={handleCardInputFocus}
                                             isInvalid={cardNumberError}
+                                            min={0}
                                         />
                                         {cardNumberError && (
                                             <Form.Control.Feedback type="invalid">
@@ -187,13 +195,13 @@ function FormularioPago({
                                 <Col md={12}>
                                     <FloatingLabel
                                         controlId="floatingInputCardHolder"
-                                        label="Nombre del titular"
+                                        label="Nombre y Apellido del titular"
                                         className="mb-3"
                                     >
                                         <Form.Control
                                             type="text"
                                             name="name"
-                                            placeholder="Nombre del titular"
+                                            placeholder="Nombre y Apellido del titular"
                                             value={cardDetails.name}
                                             onChange={handleCardInputChange}
                                             onFocus={handleCardInputFocus}
@@ -201,8 +209,8 @@ function FormularioPago({
                                         />
                                         {cardHolderError && (
                                             <Form.Control.Feedback type="invalid">
-                                                Debes ingresar un nombre de
-                                                titular.
+                                                Debes ingresar nombre y apellido
+                                                del titular.
                                             </Form.Control.Feedback>
                                         )}
                                     </FloatingLabel>
@@ -247,6 +255,7 @@ function FormularioPago({
                                             onChange={handleCardInputChange}
                                             onFocus={handleCardInputFocus}
                                             isInvalid={cvcError}
+                                            min={0}
                                         />
                                         {cvcError && (
                                             <Form.Control.Feedback type="invalid">
@@ -280,11 +289,12 @@ function FormularioPago({
                                     placeholder="Ingrese el monto en efectivo"
                                     onBlur={handleCashAmountChange}
                                     isInvalid={cashAmountError}
+                                    min={0}
                                 />
                                 {cashAmountError && (
                                     <Form.Control.Feedback type="invalid">
-                                        Debes ingresar el monto en efectivo a
-                                        pagar.
+                                        Ingresa correctamente el monto en
+                                        efectivo a pagar.
                                     </Form.Control.Feedback>
                                 )}
                             </FloatingLabel>

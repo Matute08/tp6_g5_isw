@@ -29,6 +29,7 @@ function App() {
     const [deliveryTime, setDeliveryTime] = useState("");
     const [scheduledTime, setScheduledTime] = useState("");
     const [total, setTotal] = useState(0);
+    const [montoEfectivo, setMontoEfectivo] = useState(0)
     const [selectedImage, setSelectedImage] = useState(null); // Agregado estado para la imagen
 
     const handleNextStep = () => {
@@ -132,6 +133,9 @@ function App() {
                         paymentMethod={paymentMethod}
                         cardNumber={cardNumber}
                         cardHolder={cardHolder}
+                        montoEfectivo={montoEfectivo}
+                        onMontoEfectivoChange ={(value) =>
+                        setMontoEfectivo(value)}
                         onPaymentMethodChange={(value) =>
                             setPaymentMethod(value)
                         }

@@ -23,11 +23,11 @@ function FormularioDireccionEntrega({
     };
 
     const isValidHeight = (height) => {
-        return !!height.trim(); // Esta es una validación de no permitir alturas vacías
+        return !!height.trim() && height >= 0; // Esta es una validación de no permitir alturas vacías
     };
 
     const isValidCity = (city) => {
-        return city != "Seleccione..."; // Verificar que la ciudad no sea "Seleccione..."
+        return city != ""; // Verificar que la ciudad no sea "Seleccione..."
     };
 
     const handleNextStep = () => {
@@ -58,19 +58,19 @@ function FormularioDireccionEntrega({
                                 {/* DIRECCION DE ENTREGA */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Dirección de Entrega *"
+                                    label="Calle *"
                                     className="mb-3"
                                 >
                                     <Form.Control
                                         type="text"
-                                        placeholder="Dirección de Entrega"
+                                        placeholder="Calle *"
                                         value={deliveryAddress}
                                         onChange={onDeliveryAddressChange}
                                         isInvalid={addressError}
                                     />
                                     {addressError && (
                                         <Form.Control.Feedback type="invalid">
-                                            Debes ingresar una dirección.
+                                            Debes ingresar una calle.
                                         </Form.Control.Feedback>
                                     )}
                                 </FloatingLabel>
@@ -79,19 +79,20 @@ function FormularioDireccionEntrega({
                                 {/* ALTURA DE ENTREGA */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Altura del Entrega *"
+                                    label="Número *"
                                     className="mb-3"
                                 >
                                     <Form.Control
                                         type="number"
-                                        placeholder="Altura de entrega"
+                                        placeholder="Numero *"
                                         value={deliveryHeight}
                                         onChange={onDeliveryHeightChange}
                                         isInvalid={heightError}
+                                        min={0}
                                     />
                                     {heightError && (
                                         <Form.Control.Feedback type="invalid">
-                                            Debes ingresar una altura.
+                                            Debes ingresar una altura válida.
                                         </Form.Control.Feedback>
                                     )}
                                 </FloatingLabel>
@@ -100,7 +101,7 @@ function FormularioDireccionEntrega({
                         {/* CIUDAD DE ENTREGA */}
                         <FloatingLabel
                             controlId="floatingInput"
-                            label="Ciudad de Entrega *"
+                            label="Ciudad *"
                             className="mb-3"
                         >
                             <Form.Select
@@ -108,7 +109,7 @@ function FormularioDireccionEntrega({
                                 onChange={onDeliveryCityChange}
                                 isInvalid={cityError}
                             >
-                                <option value="Seleccione...">
+                                <option value="">
                                     Seleccione...
                                 </option>
                                 <option value="Villa Carlos Paz">

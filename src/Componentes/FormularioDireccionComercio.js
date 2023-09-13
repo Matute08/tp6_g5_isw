@@ -22,11 +22,11 @@ function FormularioDireccionComercio({
         return !!address.trim(); // Esta es una validación de no permitir direcciones vacías
     };
     const isValidHeight = (height) => {
-        return !!height.trim(); // Esta es una validación de no permitir alturas vacías
+        return !!height.trim() && height >= 0; // Esta es una validación de no permitir alturas vacías
     };
 
     const isValidCity = (city) => {
-        return city != "Seleccione..."; // Verificar que la ciudad no sea "Seleccione..."
+        return city != ""; // Verificar que la ciudad no sea "Seleccione..."
     };
 
     const handleNextStep = () => {
@@ -57,11 +57,11 @@ function FormularioDireccionComercio({
                                 {/* DIRECCION DEL COMERCIO */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Dirección del Comercio *"
+                                    label="Calle *"
                                     className="mb-3"
                                 >
                                     <Form.Control
-                                        placeholder="Dirección del Comercio"
+                                        placeholder="Calle *"
                                         type="text"
                                         value={commerceAddress}
                                         onChange={onCommerceAddressChange}
@@ -69,7 +69,7 @@ function FormularioDireccionComercio({
                                     />
                                     {addressError && (
                                         <Form.Control.Feedback type="invalid">
-                                            Debes ingresar una dirección.
+                                            Debes ingresar una calle.
                                         </Form.Control.Feedback>
                                     )}
                                 </FloatingLabel>
@@ -78,19 +78,20 @@ function FormularioDireccionComercio({
                                 {/* ALTURA DEL COMERCIO */}
                                 <FloatingLabel
                                     controlId="floatingInput"
-                                    label="Altura del Comercio *"
+                                    label="Número *"
                                     className="mb-3"
                                 >
                                     <Form.Control
-                                        placeholder="Altura del Comercio "
+                                        placeholder="Número *"
                                         type="number"
                                         value={commerceHeight}
                                         onChange={onCommerceHeightChange}
                                         isInvalid={heightError}
+                                        min={0}
                                     />
                                     {heightError && (
                                         <Form.Control.Feedback type="invalid">
-                                            Debes ingresar una altura.
+                                            Debes ingresar una altura válida.
                                         </Form.Control.Feedback>
                                     )}
                                 </FloatingLabel>
@@ -100,17 +101,16 @@ function FormularioDireccionComercio({
                         {/* CIUDAD DEL COMERCIO */}
                         <FloatingLabel
                             controlId="floatingInput"
-                            label="Ciudad del Comercio *"
+                            label="Ciudad *"
                             className="mb-3"
                         >
                             <Form.Select
                                 value={commerceCity}
                                 onChange={onCommerceCityChange}
                                 isInvalid={cityError}
+                                required
                             >
-                                <option value="Seleccione...">
-                                    Seleccione...
-                                </option>
+                                <option value="">Seleccione...</option>
                                 <option value="Villa Carlos Paz">
                                     Villa Carlos Paz
                                 </option>
@@ -148,8 +148,8 @@ function FormularioDireccionComercio({
                             />
                         </FloatingLabel>
                     </Form.Group>
-                {/* Agrega el componente Mapa para la dirección del comercio */}
-                <Mapa
+                    {/* Agrega el componente Mapa para la dirección del comercio */}
+                    <Mapa
                     tipoDireccion="Comercio"
                     direccion={commerceAddress}
                     altura={commerceHeight}
