@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, Form } from "react-bootstrap";
-import AlertComponent from "./Alertas/AlertaComponente";
+import AlertaComponente from "../Alertas/AlertaComponente";
+import SelectorEntrega from "./SelectorEntrega";
+import SelectorFechaEntrega from "./SelectorFechaEntrega";
 
 function TiempoEntrega({
     deliveryTime,
@@ -10,6 +12,10 @@ function TiempoEntrega({
     onPrevStep,
     onNextStep,
 }) {
+    const options = [
+        { label: "Lo antes posible", value: "asap" },
+        { label: "Programar entrega", value: "programar" },
+    ];
     const [error, setError] = useState(""); // Estado para almacenar el mensaje de error
     const [isButtonVisible, setIsButtonVisible] = useState(false); // Estado para controlar la visibilidad del botón "Enviar"
 
@@ -22,7 +28,9 @@ function TiempoEntrega({
 
         // Compara la fecha seleccionada con la fecha actual o igual a la fecha actual
         if (selectedDate < currentDate) {
-            setError("La fecha seleccionada no puede ser anterior a la fecha actual.");
+            setError(
+                "La fecha seleccionada no puede ser anterior a la fecha actual."
+            );
             setIsButtonVisible(false); // Oculta el botón si hay un error
         } else {
             setError(""); // Limpia el mensaje de error si la fecha es válida o igual a la fecha actual
@@ -35,11 +43,6 @@ function TiempoEntrega({
         validarFecha(scheduledTime);
     }, [scheduledTime]);
 
-    const handleScheduledTimeChange = (e) => {
-        const selectedTime = e.target.value;
-        onScheduledTimeChange(selectedTime); // Llama a la función para actualizar scheduledTime
-        validarFecha(selectedTime); // Llama a la función de validación
-    };
 
     useEffect(() => {
         // Actualiza la visibilidad del botón "Enviar" cuando cambia la opción de entrega
@@ -53,38 +56,24 @@ function TiempoEntrega({
                     <h2>Tiempo de Entrega</h2>
                 </Card.Header>
                 <Card.Body>
-                    <div>
-                        <Form.Check
-                            type="radio"
-                            label="Lo antes posible"
-                            name="deliveryTime"
-                            value="asap"
-                            checked={deliveryTime === "asap"}
-                            onChange={() => onDeliveryTimeChange("asap")}
-                        />
-                        <Form.Check
-                            type="radio"
-                            label="Programar entrega"
-                            name="deliveryTime"
-                            value="programar"
-                            checked={deliveryTime === "programar"}
-                            onChange={() => onDeliveryTimeChange("programar")}
-                        />
-                    </div>
+                    <SelectorEntrega
+                        selectedValue={deliveryTime}
+                        options={options}
+                        onChange={onDeliveryTimeChange}
+                    />
+
                     {deliveryTime === "programar" && (
-                        <div>
-                            <Form.Control
-                                type="datetime-local"
-                                value={scheduledTime}
-                                onChange={(e) => handleScheduledTimeChange(e)} // Pasa el evento como argumento
-                            />
-                            {error && <div style={{ color: "red" }}>{error}</div>} {/* Muestra el mensaje de error en rojo si existe */}
-                        </div>
+                        <SelectorFechaEntrega
+                            value={scheduledTime}
+                            onChange={onScheduledTimeChange}
+                            error={error}
+                        />
                     )}
+                    
                 </Card.Body>
                 <Card.Footer className="d-flex justify-content-between">
                     <button onClick={onPrevStep}>Anterior</button>
-                    {isButtonVisible && <AlertComponent />} {/* Muestra el componente Alert si hay una fecha seleccionada y es válida */}
+                    {isButtonVisible && <AlertaComponente />}{" "}
                 </Card.Footer>
             </Card>
         </div>

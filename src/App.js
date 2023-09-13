@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import ProgressBar from "react-bootstrap/ProgressBar";
-import BarraBusqueda from "./Componentes/BarraBusqueda";
-import FormularioDireccionComercio from "./Componentes/FormularioDireccionComercio";
-import FormularioPago from "./Componentes/FormularioPago";
-import ResumenPedido from "./Componentes/ResumenPedido";
-import FormularioDireccionEntrega from "./Componentes/FormularioDireccionEntrega";
-import TiempoEntrega from "./Componentes/TiempoEntrega";
+import Busqueda from "./Componentes/BusquedaProducto/Busqueda";
+import DireccionComercio from "./Componentes/FormularioDireccion/DireccionComercio";
+import DireccionEntrega from "./Componentes/FormularioDireccion/DireccionEntrega";
+
+import FormularioPago from "./Componentes/FormularioPago/FormularioPago";
+import ResumenPedido from "./Componentes/ResumenPedido/ResumenPedido";
+import TiempoEntrega from "./Componentes/TiempoEntrega/TiempoEntrega";
 import "./index.css";
-import img from "./imagen/delivereat.png";
+import img from "./Imagen/delivereat.png"
 
 function App() {
     const [pasoActual, setPasoActual] = useState(1);
@@ -53,7 +54,7 @@ function App() {
         switch (pasoActual) {
             case 1:
                 return (
-                    <BarraBusqueda
+                    <Busqueda
                         searchTerm={searchTerm}
                         onSearchChange={(e) => setSearchTerm(e.target.value)}
                         onNextStep={handleNextStep}
@@ -62,7 +63,7 @@ function App() {
                 );
             case 2:
                 return (
-                    <FormularioDireccionComercio
+                    <DireccionComercio
                         commerceAddress={commerceAddress}
                         commerceHeight={commerceHeight}
                         commerceCity={commerceCity}
@@ -85,7 +86,7 @@ function App() {
                 );
             case 3:
                 return (
-                    <FormularioDireccionEntrega
+                    <DireccionEntrega
                         deliveryAddress={deliveryAddress}
                         deliveryHeight={deliveryHeight}
                         deliveryCity={deliveryCity}

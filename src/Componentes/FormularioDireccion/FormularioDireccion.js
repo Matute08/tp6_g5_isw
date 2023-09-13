@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
-import Mapa from "./Mapa/Mapa";
+import Mapa from "../Mapa/Mapa"
 
-function FormularioDireccionComercio({
-    commerceAddress,
-    commerceHeight,
-    commerceCity,
-    commerceReference,
-    onCommerceAddressChange,
-    onCommerceHeightChange,
-    onCommerceCityChange,
-    onCommerceReferenceChange,
+function FormularioDireccion({
+    address,
+    height,
+    city,
+    reference,
+    onAddressChange,
+    onHeightChange,
+    onCityChange,
+    onReferenceChange,
     onPrevStep,
     onNextStep,
+    tipoDireccion,
 }) {
     const [addressError, setAddressError] = useState(false);
     const [heightError, setHeightError] = useState(false);
@@ -21,18 +22,19 @@ function FormularioDireccionComercio({
     const isValidAddress = (address) => {
         return !!address.trim(); // Esta es una validación de no permitir direcciones vacías
     };
+
     const isValidHeight = (height) => {
         return !!height.trim() && height >= 0; // Esta es una validación de no permitir alturas vacías
     };
 
     const isValidCity = (city) => {
-        return city != ""; // Verificar que la ciudad no sea "Seleccione..."
+        return city !== ""; // Verificar que la ciudad no sea "Seleccione..."
     };
 
     const handleNextStep = () => {
-        const isAddressValid = isValidAddress(commerceAddress);
-        const isHeightValid = isValidHeight(commerceHeight);
-        const isCityValid = isValidCity(commerceCity);
+        const isAddressValid = isValidAddress(address);
+        const isHeightValid = isValidHeight(height);
+        const isCityValid = isValidCity(city);
 
         setAddressError(!isAddressValid);
         setHeightError(!isHeightValid);
@@ -47,14 +49,14 @@ function FormularioDireccionComercio({
         <div className="d-flex justify-content-center m-3">
             <Card className=" card-responsive">
                 <Card.Header className="text-center">
-                    <h2>Dirección del Comercio</h2>
+                    <h2>Dirección de {tipoDireccion}</h2>
                 </Card.Header>
 
                 <Card.Body>
                     <Form.Group>
                         <Row>
                             <Col md={8}>
-                                {/* DIRECCION DEL COMERCIO */}
+                                {/* DIRECCION */}
                                 <FloatingLabel
                                     controlId="floatingInput"
                                     label="Calle *"
@@ -63,8 +65,8 @@ function FormularioDireccionComercio({
                                     <Form.Control
                                         placeholder="Calle *"
                                         type="text"
-                                        value={commerceAddress}
-                                        onChange={onCommerceAddressChange}
+                                        value={address}
+                                        onChange={onAddressChange}
                                         isInvalid={addressError}
                                     />
                                     {addressError && (
@@ -75,7 +77,7 @@ function FormularioDireccionComercio({
                                 </FloatingLabel>
                             </Col>
                             <Col md={4}>
-                                {/* ALTURA DEL COMERCIO */}
+                                {/* ALTURA */}
                                 <FloatingLabel
                                     controlId="floatingInput"
                                     label="Número *"
@@ -84,8 +86,8 @@ function FormularioDireccionComercio({
                                     <Form.Control
                                         placeholder="Número *"
                                         type="number"
-                                        value={commerceHeight}
-                                        onChange={onCommerceHeightChange}
+                                        value={height}
+                                        onChange={onHeightChange}
                                         isInvalid={heightError}
                                         min={0}
                                     />
@@ -98,15 +100,15 @@ function FormularioDireccionComercio({
                             </Col>
                         </Row>
 
-                        {/* CIUDAD DEL COMERCIO */}
+                        {/* CIUDAD */}
                         <FloatingLabel
                             controlId="floatingInput"
                             label="Ciudad *"
                             className="mb-3"
                         >
                             <Form.Select
-                                value={commerceCity}
-                                onChange={onCommerceCityChange}
+                                value={city}
+                                onChange={onCityChange}
                                 isInvalid={cityError}
                                 required
                             >
@@ -143,18 +145,18 @@ function FormularioDireccionComercio({
                             <Form.Control
                                 type="text"
                                 placeholder="Referencias"
-                                value={commerceReference}
-                                onChange={onCommerceReferenceChange}
+                                value={reference}
+                                onChange={onReferenceChange}
                             />
                         </FloatingLabel>
                     </Form.Group>
-                    {/* Agrega el componente Mapa para la dirección del comercio */}
+                    {/* Agrega el componente Mapa para la dirección */}
                     <Mapa
-                    tipoDireccion="Comercio"
-                    direccion={commerceAddress}
-                    altura={commerceHeight}
-                    ciudad={commerceCity}
-                />
+                        tipoDireccion={tipoDireccion}
+                        direccion={address}
+                        altura={height}
+                        ciudad={city}
+                    />
                 </Card.Body>
 
                 <Card.Footer className="d-flex justify-content-between">
@@ -166,4 +168,4 @@ function FormularioDireccionComercio({
     );
 }
 
-export default FormularioDireccionComercio;
+export default FormularioDireccion;

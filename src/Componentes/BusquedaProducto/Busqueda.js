@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, Form, Alert,FloatingLabel } from "react-bootstrap";
 
-function BarraBusqueda({
+function Busqueda({
     searchTerm,
     onSearchChange,
     onNextStep,
@@ -85,4 +85,4 @@ function BarraBusqueda({
     );
 }
 
-export default BarraBusqueda;
+export default Busqueda;

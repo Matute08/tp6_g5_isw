@@ -43,6 +43,7 @@ function AlertComponent() {
     };
 
     return (
+        
         <button type="submit" onClick={mostrarAlert}>Enviar</button>
     );
 }
