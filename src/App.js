@@ -10,7 +10,7 @@ import FormularioPago from "./Componentes/FormularioPago/FormularioPago";
 import ResumenPedido from "./Componentes/ResumenPedido/ResumenPedido";
 import TiempoEntrega from "./Componentes/TiempoEntrega/TiempoEntrega";
 import "./index.css";
-import img from "./Imagen/delivereat.png"
+import img from "../src/Imagen/delivereat.png"
 
 function App() {
     const [pasoActual, setPasoActual] = useState(1);
