@@ -145,6 +145,7 @@ function App() {
                         onCardHolderChange={(e) =>
                             setCardHolder(e.target.value)
                         }
+                        
                         onPrevStep={handlePrevStep}
                         onNextStep={handleNextStep}
                     />

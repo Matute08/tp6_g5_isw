@@ -25,7 +25,11 @@ function AlertComponent() {
                     'Pedido Enviado!',
                     'Tu Pedido ha sido enviado.',
                     'success'
-                )
+                    
+                ).then(() => {
+                    // Recargar la página después de mostrar el SweetAlert
+                    window.location.reload();
+                });
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {

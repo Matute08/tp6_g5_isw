@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Form, Image } from "react-bootstrap";
 import imgRandom from "../imagen/imagen.jpg";
-import MapaTrayecto from "./MapaTrayecto"; // Importa el componente MapaTrayecto
+import MapaTrayecto from "./Mapa/MapaTrayecto"; // Importa el componente MapaTrayecto
 
 function ResumenPedido({
     product,

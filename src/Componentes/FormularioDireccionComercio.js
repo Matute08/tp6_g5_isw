@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Col, FloatingLabel, Form, Row } from "react-bootstrap";
-import Mapa from "./Mapa";
+import Mapa from "./Mapa/Mapa";
 
 function FormularioDireccionComercio({
     commerceAddress,

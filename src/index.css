@@ -51,6 +51,36 @@ body {
     width: 50%;
 }
 
+
+
+.input-container {
+    position: relative;
+  }
+  
+  .input {
+    border: none;
+    border-bottom: 1px solid #ccc; /* Línea horizontal predeterminada */
+    padding: 10px;
+    width: 200px; /* Ancho del input */
+    outline: none;
+  }
+  
+  .bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px; /* Altura de la barra horizontal */
+    width: 0; /* Inicialmente, la barra tiene ancho cero */
+    background-color: blue; /* Color de la barra */
+    transition: width 0.3s ease; /* Animación para la transición */
+  }
+  
+  .input:focus + .bar {
+    width: 100%; /* Cuando el input tiene foco, la barra se expande al 100% */
+  }
+  
+
+
 @media screen and (max-width: 768px) {
     .card-responsive {
         width: 100% !important;

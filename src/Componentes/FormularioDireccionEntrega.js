@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, FloatingLabel, Form, Col, Row } from "react-bootstrap";
-import Mapa from "./Mapa";
+import Mapa from "./Mapa/Mapa";
 
 function FormularioDireccionEntrega({
     deliveryAddress,

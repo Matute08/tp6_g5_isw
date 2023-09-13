@@ -29,7 +29,7 @@ function FormularioPago({
     const [cardHolderError, setCardHolderError] = useState(false);
     const [expiryError, setExpiryError] = useState(false);
     const [cvcError, setCvcError] = useState(false);
-    const [isOptionSelected, setIsOptionSelected] = useState(false);
+    const [isOptionSelected, setIsOptionSelected] = useState("");
 
     const isVisaOrMasterCard = (cardNumber) => {
         const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
@@ -46,17 +46,31 @@ function FormularioPago({
         }
 
         if (name === "expiry") {
-            const numericValue = value.replace(/\D/g, "");
+            const mesActual = new Date().getMonth()+1;
+            const añoActual = new Date().getFullYear()
+            
 
-            if (numericValue.length === 6) {
-                const formattedValue = `${numericValue.slice(
-                    0,
-                    2
-                )} / ${numericValue.slice(2)}`;
-                setCardDetails((prev) => ({ ...prev, [name]: formattedValue }));
-            } else {
-                setCardDetails((prev) => ({ ...prev, [name]: numericValue }));
+            const mesSeleccionado = value.slice(0,2)
+            const añoSeleccionado =  parseInt(value.slice(3))
+
+            if (mesSeleccionado >= '01' && mesSeleccionado <='12'   ) {
+
+                if (añoSeleccionado > añoActual) {
+                    setCardDetails((prev) => ({ ...prev, [name]: value }));
+                    setExpiryError(false)
+
+                    
+                }else if (añoSeleccionado === añoActual && mesSeleccionado> mesActual) {
+                    setCardDetails((prev) => ({ ...prev, [name]: value }));
+                    setExpiryError(false)
+                    
+                }else{
+                    setExpiryError(true)
+                }
+            }else{
+                setExpiryError(true)
             }
+            
         } else if (name === "cvc" && value.length > 3) {
             return;
         } else {
@@ -74,15 +88,23 @@ function FormularioPago({
     };
 
     const handleNextStep = () => {
+        
         let isValid = true;
 
         if (paymentMethod === "efectivo") {
             const cashAmount = document.getElementById("cashAmount").value;
+            console.log(!cashAmount.trim());
             setCashAmountError(!cashAmount.trim());
             if (!cashAmount.trim() || cashAmount < 0) {
+               
                 setCashAmountError(true);
                 isValid = false;
             }
+            else{
+                onNextStep();
+            }
+        
+
         } else if (paymentMethod === "card") {
             const isCardNumberValid = !!cardDetails.number.trim();
             const isCardHolderValid = !!cardDetails.name.trim();
@@ -94,7 +116,7 @@ function FormularioPago({
             if (cardDetails.number < 0 || cardDetails.number.length < 16) {
                 setCardNumberError(true);
             } else {
-                if (cardDetails.cvc < 0 || cardDetails.cvc.length <3) {
+                if (cardDetails.cvc < 0 || cardDetails.cvc.length < 3) {
                     setCvcError(true);
                 } else {
                     setCardNumberError(!isCardNumberValid);
@@ -129,6 +151,7 @@ function FormularioPago({
                     }
                 }
             }
+            
         }
     };
 
@@ -225,17 +248,27 @@ function FormularioPago({
                                         <Form.Control
                                             type="text"
                                             name="expiry"
-                                            maxLength="6"
-                                            placeholder="MM / YYYY"
-                                            value={cardDetails.expiry}
+                                            maxLength="7"
+                                            placeholder="MM/YYYY"
+                                            onKeyDown={(e) => {
+                                                e.target.value = e.target.value
+                                                    .replace(
+                                                        /^(\d{2})(\d{0,4})$/g,
+                                                        (_, p1, p2) =>
+                                                            p1 +
+                                                            (p2 ? "/" + p2 : "")
+                                                    )
+                                                    .replace(/[^\d\/]/g, "");
+                                            }}
                                             onChange={handleCardInputChange}
                                             onFocus={handleCardInputFocus}
                                             isInvalid={expiryError}
                                         />
+
                                         {expiryError && (
                                             <Form.Control.Feedback type="invalid">
                                                 Debes ingresar una fecha de
-                                                vencimiento.
+                                                vencimiento válida.
                                             </Form.Control.Feedback>
                                         )}
                                     </FloatingLabel>
@@ -279,7 +312,7 @@ function FormularioPago({
                     {paymentMethod === "efectivo" && (
                         <div className="m-3">
                             <FloatingLabel
-                                controlId="cashAmount"
+                                
                                 label="Ingrese el monto en efectivo"
                                 className="mb-3"
                             >
@@ -287,6 +320,11 @@ function FormularioPago({
                                     id="cashAmount"
                                     type="number"
                                     placeholder="Ingrese el monto en efectivo"
+                                    value={montoEfectivo}
+                                    onChange={(e) => {
+                                        onMontoEfectivoChange(e.target.value);
+                                       
+                                    }}
                                     onBlur={handleCashAmountChange}
                                     isInvalid={cashAmountError}
                                     min={0}
@@ -304,9 +342,9 @@ function FormularioPago({
 
                 <Card.Footer className="d-flex justify-content-between">
                     <button onClick={onPrevStep}>Anterior</button>
-                    {isOptionSelected && (
+                    
                         <button onClick={handleNextStep}>Siguiente</button>
-                    )}
+                    
                 </Card.Footer>
             </Card>
         </div>
