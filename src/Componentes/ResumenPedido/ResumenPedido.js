@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Form, Image } from "react-bootstrap";
-import imgRandom from "../../Imagen/imagen.jpg";
+import imgRandom from "../../imagen/imagen.jpg";
 import MapaTrayecto from "../Mapa/MapaTrayecto"
 
 function ResumenPedido({
